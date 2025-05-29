@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSpeechRecognition } from '../hooks/useSpeechRecognition';
-import { Copy } from 'lucide-react';
+import { Copy, Check } from 'lucide-react';
 
 interface TranscriptionAreaProps {
   transcript: string;
@@ -21,6 +21,8 @@ const TranscriptionArea: React.FC<TranscriptionAreaProps> = ({
     isListening: isRecording
   });
 
+  const [copied, setCopied] = useState(false);
+
   useEffect(() => {
     if (finalTranscript) {
       onTranscriptChange(transcript + ' ' + finalTranscript);
@@ -35,36 +37,29 @@ const TranscriptionArea: React.FC<TranscriptionAreaProps> = ({
   }, [transcript, isRecording]);
 
   const handleCopyTranscript = () => {
-    if (transcript) {
-      navigator.clipboard.writeText(transcript);
-      
-      // Visual feedback for copy action (could be replaced with a toast)
-      const button = document.getElementById('copy-transcript-btn');
-      if (button) {
-        const originalText = button.textContent;
-        button.textContent = 'Copied!';
-        setTimeout(() => {
-          button.textContent = originalText;
-        }, 2000);
-      }
-    }
+    if (!transcript.trim()) return;
+
+    navigator.clipboard.writeText(transcript).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
   };
 
   return (
-    <div className="relative">
-      <div className="flex justify-between items-center mb-2">
-        <h2 className="text-lg font-medium text-gray-700">Transcript</h2>
+    <div className="relative bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-white">Live Transcription</h2>
         <button
-          id="copy-transcript-btn"
           onClick={handleCopyTranscript}
           disabled={!transcript.trim()}
-          className={`text-sm flex items-center px-2 py-1 rounded
-            ${transcript.trim() ? 
-              'text-blue-600 hover:bg-blue-50' : 
-              'text-gray-400 cursor-not-allowed'}`}
+          className={`flex items-center px-3 py-1.5 text-sm rounded-lg transition-all duration-200
+            ${transcript.trim()
+              ? 'text-blue-600 hover:bg-blue-100 dark:text-blue-400 dark:hover:bg-blue-900/20'
+              : 'text-gray-400 cursor-not-allowed'
+            }`}
         >
-          <Copy size={14} className="mr-1" />
-          Copy
+          {copied ? <Check className="w-4 h-4 mr-1" /> : <Copy className="w-4 h-4 mr-1" />}
+          {copied ? 'Copied' : 'Copy'}
         </button>
       </div>
 
@@ -72,14 +67,17 @@ const TranscriptionArea: React.FC<TranscriptionAreaProps> = ({
         ref={textareaRef}
         value={transcript}
         onChange={(e) => onTranscriptChange(e.target.value)}
-        placeholder={isRecording ? "Listening... speak now" : "Transcript will appear here when you start recording"}
-        className={`w-full h-64 p-4 border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-400
-          ${isRecording ? 'border-blue-400 bg-blue-50' : 'border-gray-200'}
-          transition-colors duration-300`}
+        placeholder={isRecording ? 'Listening... Speak now' : 'Transcript will appear here'}
+        className={`w-full h-64 p-4 rounded-lg resize-none border focus:outline-none focus:ring-2
+          transition-all duration-300
+          ${isRecording
+            ? 'bg-blue-50 dark:bg-blue-900/10 border-blue-400 focus:ring-blue-500'
+            : 'bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700 focus:ring-blue-400 dark:focus:ring-blue-500'
+          }`}
       />
-      
+
       {isRecording && (
-        <div className="absolute bottom-3 right-3 flex items-center text-sm text-blue-600 bg-white bg-opacity-80 px-2 py-1 rounded-full">
+        <div className="absolute bottom-4 right-4 flex items-center text-sm text-blue-600 dark:text-blue-400 bg-white dark:bg-gray-900 px-3 py-1 rounded-full shadow-md bg-opacity-90 dark:bg-opacity-80">
           <span className="relative flex h-3 w-3 mr-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-600"></span>
