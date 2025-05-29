@@ -20,7 +20,7 @@ function App() {
   }, [darkMode]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 transition-colors duration-200">
+    <div className={`min-h-screen ${darkMode ? 'dark' : ''}`}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage darkMode={darkMode} setDarkMode={setDarkMode} />} />
@@ -31,5 +31,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
