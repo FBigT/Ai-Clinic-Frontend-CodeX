@@ -48,31 +48,34 @@ const NotesApp: React.FC<NotesAppProps> = ({ darkMode, setDarkMode }) => {
     });
   };
 
-    const SidebarLink = ({ icon: Icon, label, isActive }: { icon: any, label: string, isActive: boolean }) => (
+  const SidebarLink = ({ icon: Icon, label, isActive }: { icon: any, label: string, isActive: boolean }) => (
     <button
       onClick={() => setActiveTab(label.toLowerCase())}
-      className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-base font-medium transition-all duration-200
+      className={`w-full flex items-center gap-3 px-4 py-3 rounded-sm text-base font-light tracking-wide transition-all duration-300
         ${isActive 
-          ? 'bg-blue-600 text-white shadow-md' 
-          : 'text-neo-gray-800 dark:text-neo-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+          ? 'bg-neo-gray-800 dark:bg-neo-gray-100 text-white dark:text-neo-gray-800 translate-x-1 -translate-y-1' 
+          : 'text-neo-gray-800 dark:text-neo-gray-100 hover:translate-x-1 hover:-translate-y-1'}`}
     >
       <Icon className="w-5 h-5" />
       <span>{label}</span>
     </button>
   );
+
   return (
-    <div className="min-h-screen bg-glass-light dark:bg-glass-dark backdrop-blur-sm text-gray-900 dark:text-white transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-br from-neo-gray-100 to-white dark:from-neo-gray-900 dark:to-black transition-colors duration-300">
       <div className="flex h-screen">
         {/* Sidebar */}
-<aside className="w-64 bg-glass-light dark:bg-glass-dark backdrop-blur-sm border-r border-white/10 dark:border-white/5 p-6 flex flex-col justify-between shadow-xl rounded-r-2xl">
+        <aside className="w-64 backdrop-blur-sm bg-glass-light dark:bg-glass-dark border-r border-white/5 dark:border-white/10 p-6 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-10">
-              <h1 className="text-2xl font-extrabold text-blue-600 dark:text-blue-400 tracking-tight">MedAI</h1>
+              <h1 className="text-2xl font-light tracking-wider text-neo-gray-800 dark:text-neo-gray-100">
+                MED<span className="font-normal">AI</span>
+              </h1>
               <button
                 onClick={() => setDarkMode(!darkMode)}
-                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
+                className="p-2 rounded-sm hover:bg-neo-gray-200 dark:hover:bg-neo-gray-800 transition-colors"
               >
-                {darkMode ? <Sun className="text-yellow-400" /> : <Moon className="text-gray-600 dark:text-gray-300" />}
+                {darkMode ? <Sun className="text-neo-gray-100" /> : <Moon className="text-neo-gray-800" />}
               </button>
             </div>
             <nav className="space-y-3">
@@ -83,35 +86,35 @@ const NotesApp: React.FC<NotesAppProps> = ({ darkMode, setDarkMode }) => {
           </div>
           <button
             onClick={() => navigate('/')}
-            className="flex items-center gap-3 px-4 py-3 rounded-2xl text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+            className="flex items-center gap-3 px-4 py-3 rounded-sm text-red-600 dark:text-red-400 hover:translate-x-1 hover:-translate-y-1 transition-all duration-300"
           >
             <LogOut className="w-5 h-5" />
-            <span className="font-medium">Sign Out</span>
+            <span className="font-light tracking-wide">Sign Out</span>
           </button>
         </aside>
 
         {/* Main Content */}
         <main className="flex-1 overflow-hidden">
           {/* Status Bar */}
-<header className="bg-glass-light dark:bg-glass-dark backdrop-blur-sm border-b border-white/10 dark:border-white/5 p-6 shadow-md rounded-b-2xl">
+          <header className="backdrop-blur-sm bg-glass-light dark:bg-glass-dark border-b border-white/5 dark:border-white/10 p-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-6">
                 <div className={`flex items-center ${deviceConnected ? 'text-green-600 dark:text-green-400' : 'text-neo-gray-500 dark:text-neo-gray-400'}`}>
                   <Cpu className="w-5 h-5 mr-2" />
-                  <span className="text-sm">{deviceConnected ? 'Device Connected' : 'Device Disconnected'}</span>
+                  <span className="text-sm font-light">{deviceConnected ? 'Device Connected' : 'Device Disconnected'}</span>
                 </div>
                 <div className={`flex items-center ${isRecording ? 'text-red-600 dark:text-red-400' : 'text-neo-gray-500 dark:text-neo-gray-400'}`}>
                   {isRecording ? <Mic className="w-5 h-5 mr-2" /> : <MicOff className="w-5 h-5 mr-2" />}
-                  <span className="text-sm">{isRecording ? 'Recording' : 'Not Recording'}</span>
+                  <span className="text-sm font-light">{isRecording ? 'Recording' : 'Not Recording'}</span>
                 </div>
               </div>
               <div className="flex gap-4">
                 <button
                   onClick={handleDeviceConnection}
-                  className={`px-4 py-2 rounded-xl font-semibold transition-all duration-200 ${
+                  className={`px-6 py-2 rounded-sm font-light tracking-wide transition-all duration-300 hover:translate-x-1 hover:-translate-y-1 ${
                     deviceConnected 
-                      ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 hover:bg-red-200/80 dark:hover:bg-red-900/50' 
-                      : 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-200/80 dark:hover:bg-blue-900/50'
+                      ? 'bg-red-600 text-white dark:text-white' 
+                      : 'bg-neo-gray-800 dark:bg-neo-gray-100 text-white dark:text-neo-gray-800'
                   }`}
                 >
                   {deviceConnected ? 'Disconnect' : 'Connect Device'}
@@ -119,11 +122,11 @@ const NotesApp: React.FC<NotesAppProps> = ({ darkMode, setDarkMode }) => {
                 <button
                   onClick={() => setIsRecording(!isRecording)}
                   disabled={!deviceConnected}
-                  className={`px-4 py-2 rounded-xl font-semibold transition-all duration-200 ${
-                    isRecording
-                      ? 'bg-red-600 text-white hover:bg-red-700'
-                      : 'bg-green-600 text-white hover:bg-green-700'
-                  } ${!deviceConnected && 'opacity-50 cursor-not-allowed'}`}
+                  className={`px-6 py-2 rounded-sm font-light tracking-wide transition-all duration-300 hover:translate-x-1 hover:-translate-y-1
+                    ${isRecording
+                      ? 'bg-red-600 text-white'
+                      : 'bg-green-600 text-white'
+                    } ${!deviceConnected && 'opacity-50 cursor-not-allowed'}`}
                 >
                   {isRecording ? 'Stop Recording' : 'Start Recording'}
                 </button>
@@ -135,19 +138,19 @@ const NotesApp: React.FC<NotesAppProps> = ({ darkMode, setDarkMode }) => {
           <section className="p-6 h-[calc(100vh-96px)] overflow-y-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Transcription */}
-<div className="bg-glass-light dark:bg-glass-dark backdrop-blur-sm rounded-2xl shadow-lg border border-white/10 dark:border-white/5 p-6">
-                <h2 className="text-xl font-semibold mb-4">Live Transcription</h2>
+              <div className="backdrop-blur-sm bg-glass-light dark:bg-glass-dark border-l-2 border-t-2 border-white/5 dark:border-white/10 rounded-sm p-6">
+                <h2 className="text-xl font-light tracking-wide text-neo-gray-800 dark:text-neo-gray-100 mb-4">Live Transcription</h2>
                 <textarea
                   value={transcript}
                   onChange={(e) => setTranscript(e.target.value)}
-                  className="w-full h-[calc(100vh-400px)] p-4 rounded-xl resize-none bg-glass-light dark:bg-glass-dark backdrop-blur-sm border border-gray-200 dark:border-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full h-[calc(100vh-400px)] p-4 rounded-sm resize-none backdrop-blur-sm bg-white/5 dark:bg-black/5 border border-white/10 dark:border-white/5 text-neo-gray-800 dark:text-neo-gray-100 font-light focus:outline-none focus:ring-2 focus:ring-neo-gray-800 dark:focus:ring-neo-gray-100 transition-all duration-300"
                   placeholder="Transcription will appear here..."
                 />
                 <div className="mt-4 flex justify-end">
                   <button
                     onClick={generateSOAP}
                     disabled={!transcript.trim()}
-                    className="px-6 py-2 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-6 py-2 rounded-sm bg-neo-gray-800 dark:bg-neo-gray-100 text-white dark:text-neo-gray-800 font-light tracking-wide hover:translate-x-1 hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Generate SOAP Note
                   </button>
@@ -155,18 +158,18 @@ const NotesApp: React.FC<NotesAppProps> = ({ darkMode, setDarkMode }) => {
               </div>
 
               {/* SOAP Note */}
-              <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-md border border-gray-200 dark:border-gray-800 p-6">
-                <h2 className="text-xl font-semibold mb-4">SOAP Note</h2>
+              <div className="backdrop-blur-sm bg-glass-light dark:bg-glass-dark border-l-2 border-t-2 border-white/5 dark:border-white/10 rounded-sm p-6">
+                <h2 className="text-xl font-light tracking-wide text-neo-gray-800 dark:text-neo-gray-100 mb-4">SOAP Note</h2>
                 <div className="space-y-4">
                   {Object.entries(soapNote).map(([key, value]) => (
                     <div key={key}>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 capitalize">
+                      <label className="block text-sm font-light tracking-wide text-neo-gray-800 dark:text-neo-gray-100 mb-2 capitalize">
                         {key}
                       </label>
                       <textarea
                         value={value}
                         onChange={(e) => setSOAPNote(prev => ({ ...prev, [key]: e.target.value }))}
-                        className="w-full h-32 p-3 rounded-xl resize-none bg-glass-light dark:bg-glass-dark backdrop-blur-sm border border-gray-200 dark:border-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full h-32 p-3 rounded-sm resize-none backdrop-blur-sm bg-white/5 dark:bg-black/5 border border-white/10 dark:border-white/5 text-neo-gray-800 dark:text-neo-gray-100 font-light focus:outline-none focus:ring-2 focus:ring-neo-gray-800 dark:focus:ring-neo-gray-100 transition-all duration-300"
                         placeholder={`Enter ${key} notes...`}
                       />
                     </div>
@@ -177,9 +180,9 @@ const NotesApp: React.FC<NotesAppProps> = ({ darkMode, setDarkMode }) => {
 
             {/* Unsupported Warning */}
             {!isSupported && (
-              <div className="mt-6 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-xl p-4 flex items-center">
-                <AlertCircle className="w-5 h-5 text-yellow-600 dark:text-yellow-400 mr-3" />
-                <p className="text-sm text-yellow-800 dark:text-yellow-200">
+              <div className="mt-6 backdrop-blur-sm bg-red-500/10 dark:bg-red-500/5 border border-red-500/20 dark:border-red-500/10 rounded-sm p-4 flex items-center">
+                <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 mr-3" />
+                <p className="text-sm font-light text-red-800 dark:text-red-200">
                   Speech recognition is not supported in your browser. Please use a modern browser like Chrome or Edge.
                 </p>
               </div>
