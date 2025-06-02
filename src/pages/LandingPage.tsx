@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Shield, Cpu, Brain, ArrowRight, Moon, Sun } from 'lucide-react';
+import { Shield, Cpu, Brain, ArrowRight, Moon, Sun, Mic, FileText, Check, Star } from 'lucide-react';
 
 interface LandingPageProps {
   darkMode: boolean;
@@ -22,6 +22,23 @@ const FeatureCard = ({
     </div>
     <h3 className="text-3xl font-light mb-4 text-neo-gray-800 dark:text-neo-gray-100">{title}</h3>
     <p className="text-lg text-neo-gray-600 dark:text-neo-gray-300 font-light leading-relaxed">{description}</p>
+  </div>
+);
+
+const TestimonialCard = ({ name, role, quote, rating }: { name: string; role: string; quote: string; rating: number }) => (
+  <div className="backdrop-blur-sm bg-glass-light dark:bg-glass-dark border-l-2 border-t-2 border-white/5 dark:border-white/10 rounded-sm p-8 transition-all duration-500 hover:translate-x-2 hover:-translate-y-2 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.1)]">
+    <div className="flex gap-1 mb-4">
+      {[...Array(rating)].map((_, i) => (
+        <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+      ))}
+    </div>
+    <blockquote className="text-xl font-light text-neo-gray-800 dark:text-neo-gray-100 mb-6 leading-relaxed">
+      "{quote}"
+    </blockquote>
+    <div>
+      <div className="text-lg font-normal text-neo-gray-800 dark:text-neo-gray-100">{name}</div>
+      <div className="text-neo-gray-600 dark:text-neo-gray-300 font-light">{role}</div>
+    </div>
   </div>
 );
 
@@ -116,6 +133,71 @@ const LandingPage: React.FC<LandingPageProps> = ({ darkMode, setDarkMode }) => {
         </div>
       </div>
 
+      {/* Interactive Demo Section */}
+      <div className="py-32 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-neo-gray-200/50 to-transparent dark:from-neo-gray-800/50 dark:to-transparent"></div>
+        <div className="container mx-auto px-8 relative">
+          <div className="group mb-24">
+            <h2 className="text-5xl font-light tracking-tight text-neo-gray-800 dark:text-neo-gray-100 mb-6 transition-all duration-500 group-hover:tracking-normal">
+              See How It Works
+            </h2>
+            <div className="w-24 h-1 bg-neo-gray-800 dark:bg-neo-gray-100 transition-all duration-500 group-hover:w-40"></div>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="space-y-8">
+              <div className="flex items-start gap-6">
+                <div className="w-12 h-12 bg-neo-gray-800 dark:bg-neo-gray-100 rounded-sm flex items-center justify-center flex-shrink-0">
+                  <Mic className="w-6 h-6 text-white dark:text-neo-gray-800" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-light text-neo-gray-800 dark:text-neo-gray-100 mb-2">Record Your Session</h3>
+                  <p className="text-lg text-neo-gray-600 dark:text-neo-gray-300 font-light leading-relaxed">
+                    Start recording with a single click. Our advanced noise cancellation ensures crystal-clear audio capture.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-6">
+                <div className="w-12 h-12 bg-neo-gray-800 dark:bg-neo-gray-100 rounded-sm flex items-center justify-center flex-shrink-0">
+                  <Brain className="w-6 h-6 text-white dark:text-neo-gray-800" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-light text-neo-gray-800 dark:text-neo-gray-100 mb-2">AI Processing</h3>
+                  <p className="text-lg text-neo-gray-600 dark:text-neo-gray-300 font-light leading-relaxed">
+                    Our Edge AI processes the audio in real-time, extracting key medical information and terminology.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-6">
+                <div className="w-12 h-12 bg-neo-gray-800 dark:bg-neo-gray-100 rounded-sm flex items-center justify-center flex-shrink-0">
+                  <FileText className="w-6 h-6 text-white dark:text-neo-gray-800" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-light text-neo-gray-800 dark:text-neo-gray-100 mb-2">Generate SOAP Notes</h3>
+                  <p className="text-lg text-neo-gray-600 dark:text-neo-gray-300 font-light leading-relaxed">
+                    Get structured SOAP notes instantly, with all relevant medical information properly categorized.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative">
+              <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 dark:bg-blue-500/20 rounded-full blur-3xl"></div>
+              <div className="backdrop-blur-sm bg-glass-light dark:bg-glass-dark border-l-2 border-t-2 border-white/5 dark:border-white/10 rounded-sm p-8 relative">
+                <div className="aspect-video bg-neo-gray-800 dark:bg-neo-gray-100 rounded-sm overflow-hidden relative group">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-white dark:text-neo-gray-800 text-lg font-light">Demo Video Player</div>
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-neo-gray-100 dark:bg-neo-gray-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-1000 origin-left"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Technology Section */}
       <div className="py-32 border-t border-neo-gray-200 dark:border-neo-gray-800">
         <div className="container mx-auto px-8">
@@ -141,6 +223,39 @@ const LandingPage: React.FC<LandingPageProps> = ({ darkMode, setDarkMode }) => {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Testimonials Section */}
+      <div className="py-32 border-t border-neo-gray-200 dark:border-neo-gray-800">
+        <div className="container mx-auto px-8">
+          <div className="group mb-24">
+            <h2 className="text-5xl font-light tracking-tight text-neo-gray-800 dark:text-neo-gray-100 mb-6 transition-all duration-500 group-hover:tracking-normal">
+              What Doctors Say
+            </h2>
+            <div className="w-24 h-1 bg-neo-gray-800 dark:bg-neo-gray-100 transition-all duration-500 group-hover:w-40"></div>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            <TestimonialCard
+              name="Dr. Sarah Chen"
+              role="Primary Care Physician"
+              quote="MedAI has revolutionized my practice. I save hours each day on documentation, allowing me to focus more on patient care."
+              rating={5}
+            />
+            <TestimonialCard
+              name="Dr. Michael Rodriguez"
+              role="Emergency Medicine"
+              quote="The speed and accuracy of the transcription is impressive. It's particularly helpful during busy ER shifts."
+              rating={5}
+            />
+            <TestimonialCard
+              name="Dr. Emily Thompson"
+              role="Family Medicine"
+              quote="The SOAP note generation is incredibly intuitive. It's like having a skilled medical scribe always available."
+              rating={5}
+            />
           </div>
         </div>
       </div>
